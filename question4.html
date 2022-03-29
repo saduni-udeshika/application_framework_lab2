@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Question 4</title>
+</head>
+<body>
+<script type="text/javascript">
+  function getValue(callback){
+    let value = 0;
+    setTimeout(function (){
+      value = 10;
+      callback(value);
+    },1000)
+  }
+  getValue(function(value){
+    console.log(value);
+  });
+
+  //return a promise instead of accepting the callback
+  function getValue(){
+    let value = 0;
+    //resolve is for success.
+    //reject is for error.
+    return new Promise(function (resolve, reject){
+      setTimeout(function (){
+        value = 10;
+        resolve(value);
+      },1000)
+    });
+  }
+  function setValue(value){
+    return value + 1999;
+  }
+  function getNewValue(value, callback){
+    return new Promise(function (resolve, reject){
+      setTimeout(function (){
+        resolve(value * 100)
+      },1000)
+    });
+  }
+  async function print(){
+      let value = await getValue();
+      try{
+          value = await getNewValue(value);
+      }catch(e){
+          console.log(e);
+      }
+      value = await setValue(value);
+      console.log(value);
+  }
+  print().then(function (value){
+      console.log(value);
+  });
+</script>
+</body>
+</html>
